@@ -378,7 +378,7 @@ var pizzaElementGenerator = function(i) {
   pizzaContainer.id = "pizza" + i;                // gives each pizza element a unique id
   pizzaImageContainer.classList.add("col-md-6");
 
-  pizzaImage.src = "images/pizza.png";
+  pizzaImage.src = "img/pizza.png";
   pizzaImage.classList.add("img-responsive");
   pizzaImageContainer.appendChild(pizzaImage);
   pizzaContainer.appendChild(pizzaImageContainer);
@@ -499,28 +499,19 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-  frame++;
-  window.performance.mark("mark_start_frame");
-
-  var items = document.querySelectorAll('.mover');
-  var itemStyles = [];
-  var phase;
-  for (var i = 0; i < items.length; i++) {
-    phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    itemStyles.push(items[i].basicLeft + 100 * phase + 'px');
-  }
-  for (var i = 0; i < items.length; i++) {
-    items[i].style.left = itemStyles[i];
-  }
-
-  // User Timing API to the rescue again. Seriously, it's worth learning.
-  // Super easy to create custom metrics.
-  window.performance.mark("mark_end_frame");
-  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
-  if (frame % 10 === 0) {
-    var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-    logAverageFrame(timesToUpdatePosition);
-  }
+  requestAnimationFrame(function() {
+    var items = document.querySelectorAll('.mover');
+    var itemStyles = [];
+    var phase;
+    var scollConst = document.body.scrollTop / 1250;
+    for (var i = 0; i < items.length; i++) {
+      phase = Math.sin(scollConst + (i % 5));
+      itemStyles.push(items[i].basicLeft + 100 * phase + 'px');
+    }
+    for (var i = 0; i < items.length; i++) {
+      items[i].style.left = itemStyles[i];
+    }
+  });
 }
 
 // runs updatePositions on scroll
@@ -530,10 +521,10 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 40; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "images/pizza.png";
+    elem.src = "img/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
