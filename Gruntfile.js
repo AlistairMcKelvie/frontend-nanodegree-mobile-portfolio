@@ -1,6 +1,14 @@
 module.exports = function(grunt) {
     // Project configuration
     grunt.initConfig({
+        inline: {
+            dist: {
+                files: [{
+                    src: 'index_dev.html',
+                    dest: 'index.html'
+                }]
+            }
+        },
         responsive_images: {
             dev: {
                 options: {
@@ -55,5 +63,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mkdir');
-    grunt.registerTask('default', ['clean','mkdir', 'copy', 'responsive_images']);
+    grunt.loadNpmTasks('grunt-inline');
+    grunt.registerTask('default', ['clean','mkdir', 'copy', 'responsive_images', 'inline']);
 };
