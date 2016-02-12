@@ -10,8 +10,9 @@
     <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 
+    <!-- __inline=true tag is for grunt inline task-->
     <link href="css/style.css?__inline=true" rel="stylesheet">
-    <link href="css/print.css" rel="stylesheet">
+    <link href="css/print.css" media="print" rel="stylesheet">
 
     <script>
       (function(w,g){w['GoogleAnalyticsObject']=g;
@@ -57,7 +58,7 @@
           </li>
 
           <li>
-            <img style="width: 100px;" src="views/images/pizzeria-320.jpg">
+            <img style="width: 100px;" src="views/img/pizzeria-1024.jpg" srcset="views/img/pizzeria-1024.jpg 1024w, views/img/pizzeria-640.jpg 640w, views/img/pizzeria-320.jpg 320w" sizes="100px">
             <a href="views/pizza.html">Cam's Pizzeria</a>
             <p>Who wants a performant pizza?</p>
           </li>
