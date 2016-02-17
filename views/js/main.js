@@ -424,7 +424,6 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    requestAnimationFrame(function() {
     var newWidth;
     switch(size) {
       case "1":
@@ -444,7 +443,6 @@ var resizePizzas = function(size) {
     for (var i = 0; i < pizzas.length; i++) {
       pizzas[i].style.width = newWidth;
     }
-    });
   }
 
   changePizzaSizes(size);
@@ -489,30 +487,33 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
+  var itemStyles = [];
+  var phase;
   requestAnimationFrame(function() {
-    var items = document.querySelectorAll('.mover');
-    var itemStyles = [];
-    var phase;
-    var scollConst = document.body.scrollTop / 1250;
-    for (var i = 0; i < items.length; i++) {
-      phase = Math.sin(scollConst + (i % 5));
-      itemStyles.push(items[i].basicLeft + 100 * phase + 'px');
-    }
-    for (var i = 0; i < items.length; i++) {
-      items[i].style.left = itemStyles[i];
-    }
-  });
+  var scollConst = document.body.scrollTop / 1250;
+  for (var i = 0; i < pizzas.length; i++) {
+    phase = Math.sin(scollConst + (i % 5));
+    itemStyles.push(pizzas[i].basicLeft + 100 * phase + 'px');
+  }
+  for (var i = 0; i < pizzas.length; i++) {
+    pizzas[i].style.left = itemStyles[i];
+  }
+  })
 }
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
-
+// keep global access to pizzas so I don't have to
+// query for it
+var pizzas;
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
   var s = 256;
+  // due to movement this is the max col for screen width
+  var cols = Math.ceil(screen.width / s) + 1;
+  var rows = Math.ceil(screen.height /s);
   var elem;
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < cols * rows; i++) {
     elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "img/pizza.png";
@@ -522,5 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
+  pizzas = document.querySelectorAll('.mover');
   updatePositions();
 });
+
