@@ -423,7 +423,10 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
+    // Get the size of randomPizzas div, which contains all the pizzas, once
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    // Set newSize variable based on the selected size, which will be applied
+    // to all the pizzas
     var newWidth;
     switch(size) {
       case "1":
@@ -436,9 +439,10 @@ var resizePizzas = function(size) {
         newWidth = 0.5 * windowWidth + 'px';
         break;
       default:
-        console.log("bug in sizeSwitcher");
+        console.log("bug in changePizzaSizes");
     }
 
+    // Select all the pizzas and iterate over them to change size
     var pizzas = document.querySelectorAll(".randomPizzaContainer");
     for (var i = 0; i < pizzas.length; i++) {
       pizzas[i].style.width = newWidth;
@@ -487,29 +491,40 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-  var itemStyles = [];
-  var phase;
+  frame++;
+  window.performance.mark("mark_start_frame");
+  // Use request animation frame to make sure updates are only done when the browser can handle it
   requestAnimationFrame(function() {
-  var scollConst = document.body.scrollTop / 1250;
-  for (var i = 0; i < pizzas.length; i++) {
-    phase = Math.sin(scollConst + (i % 5));
-    itemStyles.push(pizzas[i].basicLeft + 100 * phase + 'px');
-  }
-  for (var i = 0; i < pizzas.length; i++) {
-    pizzas[i].style.left = itemStyles[i];
-  }
+    var phases = [];
+    // Just read this once
+    var scrollConst = document.body.scrollTop / 1250;
+    // Precalculate the 5 phase values
+    for (var i = 0; i < 5; i++) {
+        phases.push(100 * Math.sin(scrollConst + i));
+    }
+    // Update values
+    for (var i = 0; i < pizzas.length; i++) {
+      pizzas[i].style.left = pizzas[i].basicLeft + phases[i % 5] + 'px';
+    }
   })
+  // User Timing API to the rescue again. Seriously, it's worth learning.
+  // Super easy to create custom metrics.
+  window.performance.mark("mark_end_frame");
+  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
+  if (frame % 10 === 0) {
+    var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
+    logAverageFrame(timesToUpdatePosition);
+  }
 }
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
-// keep global access to pizzas so I don't have to
-// query for it
+// keep global access to pizzas so I don't have to keep querying for it, and keep 
 var pizzas;
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
-  // due to movement this is the max col for screen width
+  // number of rows and cols for screen size, plus 1 for cols to take movement into account
   var cols = Math.ceil(screen.width / s) + 1;
   var rows = Math.ceil(screen.height /s);
   var elem;
