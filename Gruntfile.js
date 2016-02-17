@@ -10,8 +10,10 @@ module.exports = function(grunt) {
                     cssmin: true
                 },
                 files: [{
-                    src: 'index_dev.html',
-                    dest: 'tmp/index.html'
+                    expand: true,
+                    cwd: 'src',
+                    src: 'index.html',
+                    dest: 'dist'
                 }]
             }
         },
@@ -21,41 +23,36 @@ module.exports = function(grunt) {
                     engine: 'im',
                     sizes: [{
                         width: 100,
-                        quality: 40
                     }, {
-                        width: 320,
-                        quality: 40
+                        width: 320
                     }, {
                         width: 640,
-                        quality: 40
                     }, {
                         width: 1024,
-                        quality: 40
                     }]
                 },
-
                 files: [{
                     expand: true,
-                    src: ['*.{gif,jpg,png}'],
-                    cwd: 'img_src/',
-                    dest: 'img'
+                    cwd: 'src/img',
+                    src: '*.{gif,jpg,png}',
+                    dest: 'dist/img'
                 }, {
                     expand: true,
-                    src: ['*.{gif,jpg,png}'],
-                    cwd: 'views/img_src/',
-                    dest: 'views/img'
+                    cwd: 'src/views/img',
+                    src: '*.{gif,jpg,png}',
+                    dest: 'dist/views/img'
                 }]
             }
         },
         clean: {
             dev: {
-                src: ['img', 'views/img', 'tmp']
+                src: ['dist', 'dist/img', 'dist/views/img']
             }
         },
         mkdir: {
             dev: {
                 options: {
-                    create: ['img', 'views/img', 'tmp']
+                    create: ['dist/img', 'dist/views/img']
                 }
             }
         },
@@ -63,14 +60,26 @@ module.exports = function(grunt) {
             dev: {
                 files: [{
                     expand: true,
-                    cwd: 'views/img_src/fixed/',
+                    cwd: 'src/views/img/fixed',
                     src: '*.{gif,jpg,png}',
-                    dest: 'views/img/'
+                    dest: 'dist/views/img'
                 }, {
                     expand: true,
-                    cwd: 'img_src/fixed/',
+                    cwd: 'src/img/fixed',
                     src: '*.{gif,jpg,png}',
-                    dest: 'img/'
+                    dest: 'dist/img'
+                }, {
+                    expand: true,
+                    cwd: 'src',
+                    src: ['project-2048.html',
+                          'project-webperf.html',
+                          'project-mobile.html',
+                          'js/*',
+                          'css/*',
+                          'views/pizza.html',
+                          'views/css/*',
+                          'views/js/*'
+                    ], dest: 'dist'
                 }]
             }
         },
@@ -84,8 +93,10 @@ module.exports = function(grunt) {
                     minifyURLs: true
                 },
                 files: [{
-                    src: 'tmp/index.html',
-                    dest: 'index.html'
+                    expand: true,
+                    cwd: 'dist',
+                    src: 'index.html',
+                    dest: 'dist'
                 }]
             }
         },
@@ -93,14 +104,14 @@ module.exports = function(grunt) {
             dev: {
                 files: [{
                     expand: true,
-                    cwd: 'img/',
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: 'img/'
+                    cwd: 'dist/img',
+                    src: '*.{png,jpg,gif}',
+                    dest: 'dist/img'
                 }, {
                     expand: true,
-                    cwd: 'views/img/',
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: 'views/img/'
+                    cwd: 'dist/views/img',
+                    src: '*.{png,jpg,gif}',
+                    dest: 'dist/views/img'
                 }]
             }
         },
