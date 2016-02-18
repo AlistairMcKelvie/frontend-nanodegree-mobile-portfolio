@@ -1,7 +1,6 @@
-'use strict'
 var ngrok = require('ngrok');
 module.exports = function(grunt) {
-    require('load-grunt-tasks')(grunt)
+    require('load-grunt-tasks')(grunt);
     // Project configuration
     grunt.initConfig({
         inline: {
@@ -131,7 +130,36 @@ module.exports = function(grunt) {
                     strategy: 'mobile'
                 }
             }
-        }
+        },
+        jshint: {
+            options: {
+                curly: true,
+                eqnull: true,
+                eqeqeq: true,
+                undef: true,
+                devel: true,
+                globals: {
+                    require: false,
+                    module: false
+                }
+            },
+            files: {
+                src: ['package.json', '*.js', 'src/js/*.js', 'src/views/js/*.js']
+            }
+        },
+        validation: {
+            options: {
+                generateReport: false,
+                reportpath: false,
+                relaxerror: [
+                    'The Content-Type was “text/html”. Using the HTML parser.',
+                    'Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.'
+                ]
+            },
+            files: {
+                src: ['src/*.html', 'src/views/*.html']
+            }
+        },
     });
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-responsive-images');
@@ -140,6 +168,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-w3c-html-validation');
     grunt.registerTask('psi-ngrok', 'Run pagespeed with ngrok', function() {
         var done = this.async();
         var port = 8080;
@@ -154,4 +184,5 @@ module.exports = function(grunt) {
         });
     });
     grunt.registerTask('default', ['clean','mkdir', 'copy', 'responsive_images', 'inline', 'htmlmin', 'imagemin']);
+    grunt.registerTask('validate', ['jshint', 'validation']);
 };

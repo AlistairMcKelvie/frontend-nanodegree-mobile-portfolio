@@ -15,6 +15,7 @@ Creator:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
 */
+/* jshint browser: true */
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
@@ -503,10 +504,10 @@ function updatePositions() {
         phases.push(100 * Math.sin(scrollConst + i));
     }
     // Update values
-    for (var i = 0; i < pizzas.length; i++) {
+    for (i = 0; i < pizzas.length; i++) {
       pizzas[i].style.left = pizzas[i].basicLeft + phases[i % 5] + 'px';
     }
-  })
+  });
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
