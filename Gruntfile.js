@@ -170,6 +170,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-w3c-html-validation');
+    // PageSpeedInsights task code based on www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/
     grunt.registerTask('psi-ngrok', 'Run pagespeed with ngrok', function() {
         var done = this.async();
         var port = 8080;
