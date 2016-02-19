@@ -1,14 +1,14 @@
-#Requires imageoptim
-
 ## Website Performance Optimization portfolio project
 ###Viewing the Site
 * The site can be viewed locally by opening dist/index.html in a web browser.
 * The site can be hosted online using Ngrok. With Ngrok installed:
+
   ```bash
   $> cd /path/to/project-folder
   $> cd dist
   $> python -m SimpleHTTPServer 8080
   ```
+
 In another terminal:
   ``` bash
   $> cd /path/to/project-folder
