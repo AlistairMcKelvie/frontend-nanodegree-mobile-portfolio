@@ -19,24 +19,24 @@
 
 ###Building the Project
 The project can be built from source, which resides in the *src* directory. To do this the NPM, Grunt, and Imageoptim must be installed on the machine, and on the path.
-  ``` bash
-  $> cd /path/to/project-folder
-  $> npm install
-  $> grunt
-  ```
+``` bash
+$> cd /path/to/project-folder
+$> npm install
+$> grunt
+```
 
 This will build the project in the *dist* directory, including producing multiply sized version of images for responsive images, inline the critcal css, compress the images, and minify the HTML, CSS, and Javascript. Grunt can also be used to do validation on the Javascript and HTML in the project using ```grunt validate```, and can be tested with Google PageSpeed Insights as follows:
-  ```bash
-  $> cd /path/to/project-folder/dist
-  $> cd dist
-  $> python -m SimpleHTTPServer 8080
-  ```
+```bash
+$> cd /path/to/project-folder/dist
+$> cd dist
+$> python -m SimpleHTTPServer 8080
+```
 In another terminal:
-  ``` bash
-  $> cd /path/to/project-folder
-  $> grunt psi-ngrok
-  $> ngrok http 8080
-  ```
+``` bash
+$> cd /path/to/project-folder
+$> grunt psi-ngrok
+$> ngrok http 8080
+```
 ###Optimizations to Pizza Javascript
 The performance of the scrolling pizzas was improved by;
 * Reducing the number of pizzas to only the number required to fill the screen.
