@@ -9,12 +9,12 @@
   $> python -m SimpleHTTPServer 8080
   ```
 
-In another terminal:
-  ``` bash
-  $> cd /path/to/project-folder
-  $> cd dist
-  $> ngrok http 8080
-  ```
+  In another terminal:
+     ``` bash
+     $> cd /path/to/project-folder
+     $> cd dist
+     $> ngrok http 8080
+     ```
 The the site will then be accessible at the URL displayed in the Ngrok window.
 ###Building the Project
 The project can be built from source, which resides in the *src* directory. To do this the NPM, Grunt, and Imageoptim must be installed on the machine, and on the path.
